@@ -1,0 +1,388 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+//==============les structures ========================
+ typedef struct date{
+ 	int jour;
+ 	int mois;
+ 	int annee;
+ }date;
+
+typedef struct Produit{
+	char nom[30];
+	int code;
+		int quantitee;
+	float prix;
+	
+}Produit;
+typedef struct Produit_vendus{
+	char nom[30];
+
+	float prix_TTC;
+	date t;
+
+}vendus;
+//===============================declarations===========================================
+int jour,mois,annee;
+int i,n_produits=0,j,k,n_vendus=0,n_ajouter;
+Produit p[100];
+Produit l[20],ajouter,acheter;
+vendus t[100];
+int n_alimenter,a_quantite,code,r_quantite;
+
+//===========================Afficher========================
+void afficher(){
+	for(i=0;i<n_produits;i++){
+		printf(" le produit numero :%d \nle nom : %s \n le code :%d \n la quantite :%d \n le prix :%.2f\n",i+1,p[i].nom,p[i].code,p[i].quantitee,p[i].prix);
+	}
+}
+// =============Ajouter un produit=============================================================
+void ajoute(){
+
+
+		printf("donner le produit:");
+	printf("le nom:");
+	scanf("%s",ajouter.nom);
+	printf("le code:");
+	scanf("%d",&ajouter.code);
+	printf("la quantite:");
+	scanf("%d",&ajouter.quantitee);
+	printf("le prix:");
+	 scanf("%f",&ajouter.prix);
+	p[n_produits]=ajouter;
+	n_produits++;
+	afficher();
+}
+void ajouter_plusieurs_produit(){
+	
+	printf(" donner le nombre de produit que vous pouvez ajouter:");
+	scanf("%d",&n_ajouter);
+	for(i=0;i<n_ajouter;i++){
+		printf("donner le produit numero:%d\n",i+1);
+				printf("le nom:");
+	scanf("%s",p[i].nom);
+	printf("le code:");
+	scanf("%d",&p[i].code);
+	printf("la quantite:");
+	scanf("%d",&p[i].quantitee);
+	printf("le prix:");
+	 scanf("%f",&p[i].prix);
+	p[n_produits]=p[i];
+	n_produits++;
+		}
+	
+		afficher();
+	}
+	//======================lister les produits========================================================
+void lister_prix(){
+	Produit a;
+	for(i=0;i<n_produits-1;i++){
+		for(j=1;j<n_produits;j++){
+		
+		if(p[i].prix<p[j].prix){
+			a=p[i];
+			p[i]=p[j];
+			p[j]=a;
+			
+		}
+	}
+}
+afficher();
+}
+void lister_nom(){
+	Produit a;
+	for(i=0;i<n_produits-1;i++){
+		for(j=1;j<n_produits;j++){
+		
+		if(strcmp(p[i].nom,p[j].nom)>0){
+			a=p[i];
+			p[i]=p[j];
+			p[j]=a;
+			
+		}
+	}
+	afficher();
+}
+}
+// ========================Acheter==================================================
+void achette(){
+	int v_quantite;
+	printf("donner le code:");
+	scanf("%d",&code);
+	printf("donner la quantite:");
+	scanf("%d",&v_quantite);
+	printf(" donner la date jour:");
+	scanf("%d",&jour);
+	printf("le mois:");
+	scanf("%d",&mois);
+	printf("l'annee:");
+	scanf("%d",&annee);
+	for(i=0;i<n_produits;i++){
+		if(p[i].code==code){
+			
+		if(p[i].quantitee>=v_quantite){
+		
+			p[i].quantitee=p[i].quantitee-v_quantite;//mettre à jour de quantité
+				//ajouter à la liste des produits vendus
+				
+		   strcpy( t[n_vendus].nom,p[i].nom);
+t[n_vendus].prix_TTC=(p[i].prix+(p[i].prix*0.15))*v_quantite;
+	t[n_vendus].t.jour=jour;
+	t[n_vendus].t.mois=mois;
+	t[n_vendus].t.annee=annee;
+	n_vendus++;}
+	else printf("vous avez epuiser le produit!")	;
+		}
+	}
+
+		
+	
+	afficher();
+}
+// =============================Alimenter============================================
+void alimenter(){
+int c=0;
+
+	printf("donner le code du produit que vous pouver alimenter :");
+	scanf("%d",&n_alimenter);
+	printf("donner la quantitee que vous pouver ajouter:");
+	scanf("%d",&a_quantite);
+	printf("code:%d",n_alimenter);
+	printf("a_quantite:%d",a_quantite);
+	for(i=0;i<n_produits;i++){
+		if(p[i].code == n_alimenter){
+			c++;
+			p[i].quantitee = p[i].quantitee + a_quantite;
+		}
+	}
+	if(c==0)printf("ce produit n'existe pas!");
+	else afficher();
+}
+
+//===============recherche================================================================
+void recherche_code(){
+	int f=0;
+	printf("donner le code :");
+	scanf("%d",&code);
+	for(i=0;i<n_produits;i++){
+		if(p[i].code==code){
+			f++;
+			printf("le nom:%s \n le code:%d\n la quantite :%d \n le prix:%.2f",p[i].nom,p[i].code,p[i].quantitee,p[i].prix);
+		}
+	}
+	{
+		printf("ce produit n'existe pas!");
+}        	}
+void recherche_quantitee(){
+	int z=0;
+	printf("donner la quantitee :");
+	scanf("%d",&r_quantite);
+	for(i=0;i<n_produits;i++){
+		if(p[i].quantitee==r_quantite){
+			z++;
+			printf("le nom:%s \n le code:%d\n la quantite :%d \n le prix:%.2f",p[i].nom,p[i].code,p[i].quantitee,p[i].prix);
+		}
+	}
+	if(z==0)printf("ce produit n'existe pas!");
+}
+//=============mettre a jours======================================================================
+void etat(){
+	printf("les produit qui ont une quantitee inferieur a 3:\n");
+	for(i=0;i<n_produits;i++){
+		if(p[i].quantitee<3){
+			printf("le nom:%s \n le code:%d\n la quantite :%d \n le prix:%.2f",p[i].nom,p[i].code,p[i].quantitee,p[i].prix);
+		}
+	}
+}
+//========supprimer par code==========================================================================
+void supprimer_code(){
+	printf("donner le code:");
+	scanf("%d",&code);
+	for(i=0;i<n_produits;i++){
+		if(p[i].code==code){
+			k=i;
+			
+			for(j=k;j<n_produits;j++){
+				p[j]=p[j+1];
+				n_produits=n_produits-1;
+			}
+		}
+	}
+	afficher();
+}
+//================QUITER=====================================================
+void quitter(){
+ printf("\n\n        \t------------Fin-----------\n\n\n");
+ printf("\n\n        \t------------Merci-----------\n\n\n");
+ }
+ //===========================statistique de vente=============================================================
+float total(){
+	float somme_prix=0;
+	printf("donner la date :\n");
+	printf("le jour:");
+	scanf("%d",&jour);
+	printf("le mois:");
+	scanf("%d",&mois);
+	printf("l'annee:");
+	scanf("%d",&annee);
+	for(i=0;i<n_vendus;i++){
+		if(t[i].t.jour == jour && t[i].t.mois == mois && t[i].t.annee == annee){
+			somme_prix=somme_prix+t[i].prix_TTC;
+		}
+	}
+	
+	printf(" le totale des prix des produits vendus est:%.2f",somme_prix);
+}
+float moyenne(){
+	float moyenne_prix;
+	float somme_prix=0;
+	int compteur=0;
+	printf("donner la date :\n");
+	printf("le jour:");
+	scanf("%d",&jour);
+	printf("le mois:");
+	scanf("%d",&mois);
+	printf("l'annee:");
+	scanf("%d",&annee);
+	for(i=0;i<n_vendus;i++){
+		if(t[i].t.jour==jour&&t[i].t.mois==mois&&t[i].t.annee==annee){
+			compteur++;
+			somme_prix+=t[i].prix_TTC;
+		}
+	}
+	moyenne_prix=somme_prix/compteur;
+	printf("la moyenne des prix des produits est:%.2f",moyenne_prix);
+	
+}
+void max_vente(){
+	float max_prix;
+
+	printf("donner la date :\n");
+	printf("le jour:");
+	scanf("%d",&jour);
+	printf("le mois:");
+	scanf("%d",&mois);
+	printf("l'annee:");
+	scanf("%d",&annee);
+	max_prix=t[0].prix_TTC;
+	for(i=1;i<n_vendus;i++){
+		if(t[i].prix_TTC>max_prix){
+			max_prix=t[i].prix_TTC;
+		}
+	}
+	printf("le max des prix des produits vendus est :%.2f",max_prix);
+}
+void min_vente(){
+	float min_prix;
+
+	printf("donner la date :\n");
+	printf("le jour:");
+	scanf("%d",&jour);
+	printf("le mois:");
+	scanf("%d",&mois);
+	printf("l'annee:");
+	scanf("%d",&annee);
+	min_prix=t[0].prix_TTC;
+	for(i=1;i<n_vendus;i++){
+		if(t[i].prix_TTC<min_prix){
+			min_prix=t[i].prix_TTC;
+		}
+	}
+	printf("le min des prix des produits vendus est :%.2f",min_prix);
+}
+//============================main============================================
+int main(){
+	int choix,code;
+	system("color 1A");
+	do{
+	
+	
+           printf("\n        *******      Gestion Pharmacie    ****** \n\n");
+           printf("          ================================================== \n\n");
+                     printf("  Totale des Produits : %d\n\n",n_produits);
+           printf("      <1.  Ajouter un produit-------------------------------- \n");
+           printf("      <2.  Ajouter plusieurs produits------------------------ \n");
+           printf("      <3.  lister les produit-------------------------------- \n");
+			   
+           printf("      <4.  Acheter un produit-------------------------------- \n");
+           printf("      <5.  Rechercher un un produit-------------------------- \n");
+           printf("      <6.  Etat du stock------------------------------------- \n");
+           printf("      <7.  Alimenter le stock-------------------------------- \n");
+           printf("      <8.  Supprimer les produits --------------------------- \n");
+           printf("      <9.  Statistique de vende ---------------------------- \n");
+           printf("      <10. Quiter-------------------------------------------  \n");
+           printf("          ============================================== \n\n");
+           printf("Entre votre choix : ");
+           scanf("%d",&choix);
+           printf("\n\n");
+           switch(choix){
+
+case 1:ajoute();break;
+// ========1=========
+case 2:ajouter_plusieurs_produit();break;
+// ========2=========
+case 3:{
+ printf("      <1.  Lister tous les produits selon l'ordre aphabetique croissant du nom------ \n");
+printf("      <2.  Lister tous les produits selon l'ordre decroissant d prix----------------- \n"); 
+	printf("Entre votre choix : ");
+           scanf("%d",&choix);
+      switch(choix){
+    case 1:lister_nom();break;
+    case 2: lister_prix();break;
+}};break;   
+
+  // ========3=========
+case 4: achette();
+ 
+         break;
+ // ========4=========
+
+
+case 5: {
+	 printf("      <1.  Rechercher par code-------------------------------- \n");
+     printf("      <2.  Rechercher par quantitée---------------------------------- \n");
+    
+            printf("Entre votre choix : ");
+           scanf("%d",&choix);
+      switch(choix){
+      case 1:recherche_code();break;
+      case 2:recherche_quantitee();break;
+}}break; 
+// ========5=========
+
+
+
+case 6: etat();break;// ========6=========
+case 7: alimenter();break;// ========7=========
+case 8: supprimer_code();break;// ========8=========
+case 9: {
+    printf("      <1.  Totale des prix des produits vendus----------------- \n");
+    printf("      <2.  La moyenne des prix des produits vendus------------- \n");
+    printf("      <3.  Le max des prix des produits vendus----------------- \n");
+    printf("      <4.  Le min des prix des produits vendus----------------- \n");
+    
+            printf("Entre votre choix : ");
+           scanf("%d",&choix);
+      switch(choix){
+      case 1:total();break;
+      case 2:moyenne();break;
+      case 3:max_vente();break;
+      case 4:min_vente();break;
+}
+}
+
+
+ ;break;// ========9=========
+case 10 : quitter();break;
+default : printf("votre choix n'est pas valide !!!\n");
+        }
+}while(choix!=10);
+      
+
+
+
+
+
+
+	return 0;
+}
